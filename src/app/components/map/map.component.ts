@@ -29,7 +29,7 @@ export class MapComponent implements OnInit, OnChanges {
     this.initMap();
 
     // Отображаем каждый город на карте.
-    this.cities?.forEach(city => {
+    this.cities.forEach(city => {
       // Создаем маркер и помещаем его в map.
       const marker = L.marker(city.coordinates).addTo(this.map).bindPopup(city.viewValue);
       this.markers.set(city.value, marker);
@@ -44,11 +44,9 @@ export class MapComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     // Отслеживаем изменение родительского св-ва currentCity.
-    if(changes['currentCity']) {
-      const selectedCity = this.markers.get(changes['currentCity'].currentValue);
-      selectedCity?.openPopup();
-      this.map.setView(selectedCity!.getLatLng(), 9);
-    }
+    const selectedCity = this.markers.get(changes['currentCity'].currentValue);
+    selectedCity?.openPopup();
+    this.map.setView(selectedCity!.getLatLng(), 9);
   }
 
   initMap() {
